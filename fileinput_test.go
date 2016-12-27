@@ -26,7 +26,20 @@ func TestLines(t *testing.T) {
 	}
 	lines := []string{}
 	for sc.Scan() {
-		lines = append(lines, sc.Text())
+		line := sc.Text()
+		lines = append(lines, line)
+
+		// spot check progress fields
+		switch line {
+		case "a01":
+			assert.Equal(1, sc.LineNo())
+		case "a03":
+			assert.Equal(3, sc.LineNo())
+		case "c01":
+			assert.Equal(7, sc.LineNo())
+		case "c02":
+			assert.Equal(8, sc.LineNo())
+		}
 	}
 	assert.NoError(sc.Err())
 	expected := []string{
@@ -35,4 +48,5 @@ func TestLines(t *testing.T) {
 		"c01", "c02", "c03",
 	}
 	assert.Equal(expected, lines)
+	assert.Equal(len(expected), sc.LineNo())
 }

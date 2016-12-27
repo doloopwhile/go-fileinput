@@ -64,6 +64,7 @@ type (
 		icurr    int
 		err      error
 		filename string
+		lineNo   int
 		closed   bool
 	}
 )
@@ -94,6 +95,7 @@ func (s *Scanner) Scan() bool {
 		r := s.sc.Scan()
 		s.err = s.sc.Err()
 		if r {
+			s.lineNo++
 			return true
 		}
 		s.Next()
@@ -135,6 +137,11 @@ func (s *Scanner) Err() error {
 // Before the first line has been read, returns empty string.
 func (s *Scanner) Filename() string {
 	return s.filename
+}
+
+// LineNo returns the cumulative line number of the line just read.
+func (s *Scanner) LineNo() int {
+	return s.lineNo
 }
 
 // Close closes the Scanner.
