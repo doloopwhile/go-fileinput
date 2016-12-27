@@ -33,12 +33,20 @@ func TestLines(t *testing.T) {
 		switch line {
 		case "a01":
 			assert.Equal(1, sc.LineNo())
+			assert.Equal(1, sc.FileLineNo())
+			assert.Equal(true, sc.IsFirstLine())
 		case "a03":
 			assert.Equal(3, sc.LineNo())
+			assert.Equal(3, sc.FileLineNo())
+			assert.Equal(false, sc.IsFirstLine())
 		case "c01":
 			assert.Equal(7, sc.LineNo())
+			assert.Equal(1, sc.FileLineNo())
+			assert.Equal(true, sc.IsFirstLine())
 		case "c02":
 			assert.Equal(8, sc.LineNo())
+			assert.Equal(2, sc.FileLineNo())
+			assert.Equal(false, sc.IsFirstLine())
 		}
 	}
 	assert.NoError(sc.Err())

@@ -59,13 +59,14 @@ type (
 		Open      func(name string) (io.ReadCloser, error) // Function to open files.
 		SplitFunc bufio.SplitFunc                          // Argument of Split() of bufio.Split.
 
-		sc       *bufio.Scanner
-		rc       io.ReadCloser
-		icurr    int
-		err      error
-		filename string
-		lineNo   int
-		closed   bool
+		sc         *bufio.Scanner
+		rc         io.ReadCloser
+		icurr      int
+		err        error
+		filename   string
+		lineNo     int
+		fileLineNo int
+		closed     bool
 	}
 )
 
@@ -90,12 +91,14 @@ func (s *Scanner) Scan() bool {
 				s.sc.Split(s.SplitFunc)
 			}
 			s.filename = s.Args[s.icurr]
+			s.fileLineNo = 0
 		}
 
 		r := s.sc.Scan()
 		s.err = s.sc.Err()
 		if r {
 			s.lineNo++
+			s.fileLineNo++
 			return true
 		}
 		s.Next()
@@ -142,6 +145,16 @@ func (s *Scanner) Filename() string {
 // LineNo returns the cumulative line number of the line just read.
 func (s *Scanner) LineNo() int {
 	return s.lineNo
+}
+
+// FileLineNo returns the line number in the file of the line just read.
+func (s *Scanner) FileLineNo() int {
+	return s.fileLineNo
+}
+
+// IsFirstLine returns the line number in the file of the line just read.
+func (s *Scanner) IsFirstLine() bool {
+	return s.fileLineNo == 1
 }
 
 // Close closes the Scanner.
