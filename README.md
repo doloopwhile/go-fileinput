@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/doloopwhile/go-fileinput.svg?branch=master)](https://travis-ci.org/doloopwhile/go-fileinput)
+
 # fileinput
 --
     import "github.com/doloopwhile/go-fileinput"
